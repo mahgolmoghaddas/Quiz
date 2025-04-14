@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-function QuestionTimer({timeOut, onTimeOut}) {
+function QuestionTimer({timeOut, onTimeout}) {
     const [timer, setTimer]= useState(timeOut)
     useEffect(()=>{
+        console.log('timeout')
         const interval = setInterval(()=>{
             setTimer((prevState)=>{
                  prevState -10
@@ -13,13 +14,16 @@ function QuestionTimer({timeOut, onTimeOut}) {
         }
     }, [])
     useEffect(()=>{
-        setTimeout(onTimeOut,timeOut) //onTimeOut is a function itself
-    }, [onTimeOut,timeOut])
-  return (
-    <div>
-        <progress value={timer}/>
-    </div>
-  )
+        console.log('timeout')
+        const time = setTimeout(onTimeout,timeOut) //onTimeOut is a function itself
+
+        return()=>{
+            clearTimeout(time)
+        }
+    }, [onTimeout,timeOut])
+ 
+       return <progress id="question-time" max={timeOut} value={timer} />;
+
 }
 
 export default QuestionTimer
